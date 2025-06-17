@@ -11,9 +11,9 @@ pipeline {
     }
     stages {
         stage('SCM Checkout') {
-            steps{
+            steps {
                 echo "pass"
-                // git branch: 'main', url: 'https://github.com/Dzennieva/amazon_clone_docker_img.git'
+            //    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Dzennieva/amazon_clone_docker_img.git']])
             }
         }
         stage('Sonar-scanner') {
@@ -39,7 +39,7 @@ pipeline {
         stage('Trivy Scan Image') {
             steps {
                 sh '''
-                trivy image $IMAGE_URI:$BUILD_NUMBER
+                trivy image --scanners vuln $IMAGE_URI:$BUILD_NUMBER
                 '''
             }
         
@@ -52,26 +52,34 @@ pipeline {
                 ''' 
             }
         }
-        stage('Trigger Manifest') {
+        stage('Update Deployment File') {
             environment {
                 GITHUB_REPO = 'argocd_amazon_manifests'
             }
             steps {
+                deleteDir()
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh '''
-                    git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GITHUB_USR_NAME}/${GITHUB_REPO}.git
+                    sh """
+                    git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/${GITHUB_REPO}.git
                     cd ${GITHUB_REPO}
-                    git config user.email "jenniferajibo.com"
+                    git config user.email "jenniferajibo@yahoo.com"
                     git config user.name "Jennifer Ajibo"
-                    BUILD_NUMBER=${BUILD_NUMBER}
-                    sed -i "s/replaceImageTag/$BUILD_NUMBER/g" deployment.yaml
-                    cat deployment.yaml 
-                    git add deployment.yaml
+                    BUILD_NUMBER=$BUILD_NUMBER
+                    sed -i 's|image: ${IMAGE_URI}:.*|image: ${IMAGE_URI}:${BUILD_NUMBER}|' deployment.yml
+                    cat deployment.yml 
+                    git add deployment.yml
                     git commit -m "Update image tag to $BUILD_NUMBER"
                     git push origin main
-                    '''
-}
+                    """
+                }
             }
+        }
+    }
+
+    post {
+        failure {
+            echo "Pipeline failed. Cleaning up Docker image..."
+            sh "docker rmi dzennieva/amazon:${BUILD_NUMBER} || true"
         }
     }
 }
