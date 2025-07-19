@@ -60,8 +60,6 @@ pipeline {
                 deleteDir()
                 withCredentials([usernamePassword(credentialsId: 'git-cred', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
                     sh """
-                    git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/${GITHUB_REPO}.git
-                    cd ${GITHUB_REPO}
                     git config user.email "jenniferajibo@yahoo.com"
                     git config user.name "Jennifer Ajibo"
                     BUILD_NUMBER=$BUILD_NUMBER
