@@ -63,7 +63,7 @@ pipeline {
                     git config user.email "jenniferajibo@yahoo.com"
                     git config user.name "Jennifer Ajibo"
                     BUILD_NUMBER=$BUILD_NUMBER
-                    sed -i 's|image: ${IMAGE_URI}:.*|image: ${IMAGE_URI}:${BUILD_NUMBER}|' deployment.yml
+                    sed -i 's|replaceImgTag|${BUILD_NUMBER}|g' deployment.yml
                     cat deployment.yml 
                     git add deployment.yml
                     git commit -m "Update image tag to $BUILD_NUMBER"
