@@ -23,7 +23,7 @@ spec:
     spec: # Pod spec
       containers:
       - name: amazon-container
-        image: dzennieva/amazon:replaceImgTag
+        image: dzennieva/amazon:11
         ports:
         - containerPort: 3000
 ---
