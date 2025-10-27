@@ -60,7 +60,7 @@ pipeline {
                     sh """
                     git config user.email "jenniferajibo@gmail.com"
                     git config user.name "Dzennieva"
-                    sed -i 's|image.* |image: ${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}|g' deployment.yml
+                    sed -i 's|image.* |image: ${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}|g' argoCD/deployment.yml
                     cat deployment.yml 
                     git add deployment.yml
                     git commit -m "Update image tag to $BUILD_NUMBER"
