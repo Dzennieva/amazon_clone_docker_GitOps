@@ -23,7 +23,7 @@ spec:
     spec: # Pod spec
       containers:
       - name: amazon-container
-        image: ${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}dzennieva/amazon:11
+        image: dzennieva/amazon:21
         ports:
         - containerPort: 3000
 ---
