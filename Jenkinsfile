@@ -66,7 +66,7 @@ pipeline {
                     
                     git add argoCD/deployment.yml
                     git commit -m "Update image tag to $BUILD_NUMBER"
-                    git push origin HEAD:main
+                    git push ${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Dzennieva/amazon_clone_docker_GitOps.git HEAD:main
                     '''
                 }
             }
