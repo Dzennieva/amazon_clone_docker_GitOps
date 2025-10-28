@@ -66,7 +66,7 @@ pipeline {
                     
                     git add argoCD/deployment.yml
                     git commit -m "Update image tag to $BUILD_NUMBER"
-                    git push origin main
+                    git push origin HEAD:main
                     '''
                 }
             }
