@@ -61,7 +61,7 @@ pipeline {
                     git config user.email "jenniferajibo@gmail.com"
                     git config user.name "Dzennieva"
                     
-                    sed -i 's|image.* |image: ${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}|g' argoCD/deployment.yml
+                    sed -i "s|image:.*|image: ${DOCKERHUB_CREDS_USR}/amazon:${BUILD_NUMBER}|g" argoCD/deployment.yml
                     cat argoCD/deployment.yml
                     
                     git add argoCD/deployment.yml
