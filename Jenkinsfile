@@ -36,14 +36,14 @@ pipeline {
                 '''
             }
         }
-     //   stage('Trivy Scan Image') {
-         //   steps {
-              //  sh '''
-            //    trivy image --scanners vuln $IMAGE_URI:$BUILD_NUMBER
-            //    '''
-        //    }
+       stage('Trivy Scan Image') {
+           steps {
+               sh '''
+               trivy image --scanners vuln $IMAGE_URI:$BUILD_NUMBER
+               '''
+           }
         
-      //  }
+       }
         stage('Push Image to Docker Hub') {
             steps {
                 sh '''
@@ -69,6 +69,22 @@ pipeline {
                     git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/amazon_clone_docker_GitOps.git HEAD:main
                     '''
                 }
+            }
+        }
+        post {
+            success {
+                emailext(
+                to: 'jenniferajibo@example.com',
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Good news! The build succeeded.\n${env.BUILD_URL}"
+             )
+            }
+            failure {
+                emailext(
+                to: 'jenniferajibo@example.com',
+                subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Something went wrong!\nCheck console output: ${env.BUILD_URL}"
+                )
             }
         }
     }
