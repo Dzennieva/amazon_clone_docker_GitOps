@@ -39,7 +39,7 @@ function Cart() {
                   });
                 }}
               >
-                Remove from Cart
+                Add to Cart
               </Button>
               <Button className="btn">Buy Now</Button>
             </div>
@@ -74,3 +74,4 @@ function Cart() {
 }
 
 export default Cart;
+
