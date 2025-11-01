@@ -39,7 +39,7 @@ function Cart() {
                   });
                 }}
               >
-                Add to Cart
+                Remove from Cart
               </Button>
               <Button className="btn">Buy Now</Button>
             </div>
@@ -62,7 +62,7 @@ function Cart() {
         </div>
         {basket.length === 0 ? (
           <div>
-            <h2>Your basket is empty</h2>
+            <h2>You 2 items in your basket</h2>
             <h6>Start Adding Items to your basket</h6>
           </div>
         ) : (
@@ -74,4 +74,5 @@ function Cart() {
 }
 
 export default Cart;
+
 
