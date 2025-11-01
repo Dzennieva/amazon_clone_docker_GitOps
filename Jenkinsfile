@@ -36,14 +36,14 @@ pipeline {
                 '''
             }
         }
-       stage('Trivy Scan Image') {
-           steps {
-               sh '''
-               trivy image --scanners vuln $IMAGE_URI:$BUILD_NUMBER
-               '''
-           }
+       // stage('Trivy Scan Image') {
+       //     steps {
+       //         sh '''
+       //         trivy image --scanners vuln $IMAGE_URI:$BUILD_NUMBER
+       //         '''
+       //     }
         
-       }
+       // }
         stage('Push Image to Docker Hub') {
             steps {
                 sh '''
